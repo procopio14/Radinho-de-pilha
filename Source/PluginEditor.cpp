@@ -1,7 +1,7 @@
 #include "PluginEditor.h"
 
 using juce::Colour;
-using juce::Colours;
+namespace Colours = juce::Colours;
 using juce::Rectangle;
 
 namespace
