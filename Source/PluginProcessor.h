@@ -1,11 +1,11 @@
 #pragma once
 #include <JuceHeader.h>
 
-class RadinhoAudioProcessor : public juce::AudioProcessor
+class RdpAudioProcessor : public juce::AudioProcessor
 {
 public:
-    RadinhoAudioProcessor();
-    ~RadinhoAudioProcessor() override = default;
+    RdpAudioProcessor();
+    ~RdpAudioProcessor() override = default;
 
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override {}
@@ -15,7 +15,7 @@ public:
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override { return true; }
 
-    const juce::String getName() const override { return "Radinho"; }
+    const juce::String getName() const override { return "RDP"; }
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     bool isMidiEffect() const override { return false; }
@@ -82,19 +82,23 @@ private:
         }
     };
 
-    void updateFilters (float amount);
-    float radioNoise (float amount);
+    void updateFilters (float effect);
+    float radioNoise (float noiseAmount);
 
     Biquad hp1, hp2, lp1, lp2, peak;
-    juce::SmoothedValue<float> amountSmoothed;
-    std::atomic<float>* radioParam = nullptr;
+    juce::SmoothedValue<float> effectSm, noiseSm, volSm;
+    std::atomic<float>* effectParam = nullptr;
+    std::atomic<float>* noiseParam  = nullptr;
+    std::atomic<float>* volumeParam = nullptr;
 
     juce::Random rng;
     double sr = 44100.0;
     float lpCoef = 0.f, hpCoef = 0.f, crackleDecay = 0.95f;
     float lpState = 0.f, hpState = 0.f, crackle = 0.f;
-    float drive = 1.f, satNorm = 1.f, outGain = 1.f;
+    float driftCur = 1.f, driftTarget = 1.f, driftCoef = 0.001f;
+    int driftCounter = 0;
+    float drive = 1.f;
     int coefCounter = 0;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadinhoAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RdpAudioProcessor)
 };

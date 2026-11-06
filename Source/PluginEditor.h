@@ -2,28 +2,30 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
-// Knob de baquelite
-class RadioKnobLookAndFeel : public juce::LookAndFeel_V4
+// Knob estilo baquelite serrilhado
+class RdpKnobLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
     void drawRotarySlider (juce::Graphics& g, int x, int y, int w, int h,
                            float pos, float startAngle, float endAngle, juce::Slider&) override;
 };
 
-class RadinhoAudioProcessorEditor : public juce::AudioProcessorEditor
+class RdpAudioProcessorEditor : public juce::AudioProcessorEditor
 {
 public:
-    explicit RadinhoAudioProcessorEditor (RadinhoAudioProcessor&);
-    ~RadinhoAudioProcessorEditor() override;
+    explicit RdpAudioProcessorEditor (RdpAudioProcessor&);
+    ~RdpAudioProcessorEditor() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
-    RadinhoAudioProcessor& processor;
-    RadioKnobLookAndFeel lookAndFeel;
-    juce::Slider knob;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attachment;
+    void setupKnob (juce::Slider& s, double doubleClickValue);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadinhoAudioProcessorEditor)
+    RdpAudioProcessor& audioProcessor;
+    RdpKnobLookAndFeel lookAndFeel;
+    juce::Slider volumeKnob, effectKnob, noiseKnob;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> volumeAtt, effectAtt, noiseAtt;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RdpAudioProcessorEditor)
 };

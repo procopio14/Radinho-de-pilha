@@ -28,10 +28,10 @@ juce_add_plugin(Radinho
   IS_MIDI_EFFECT FALSE
   COPY_PLUGIN_AFTER_BUILD FALSE
   PLUGIN_MANUFACTURER_CODE Rdnh
-  PLUGIN_CODE Rad1
+  PLUGIN_CODE Rdp1
   FORMATS VST3 Standalone
   VST3_CATEGORIES Fx
-  PRODUCT_NAME "Radinho")
+  PRODUCT_NAME "RDP")
 
 juce_generate_juce_header(Radinho)
 
